@@ -97,7 +97,7 @@ Just pass query strings and connection to the cmdlet. Then Cmdlet will execute i
 
 ```PowerShell
 # create function sample
-DROP FUNCTION IF EXISTS samepl_function;
+DROP FUNCTION IF EXISTS sameple_function;
 CREATE FUNCTION sameple_function()
  	RETURNS datetime
   	DETERMINISTIC

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Psmysqlmodule : MySQL.NET simple wrapper for PowerShell" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Psmysqlmodule</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/guitarrapc/PSMySQLModule">View on GitHub</a>
+
+          <h1 id="project_title">Psmysqlmodule</h1>
+          <h2 id="project_tagline">MySQL.NET simple wrapper for PowerShell</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/guitarrapc/PSMySQLModule/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/guitarrapc/PSMySQLModule/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="psmysqlmodule" class="anchor" href="#psmysqlmodule"><span class="octicon octicon-link"></span></a>PSMySQLModule</h1>
+
+<h1>
+<a name="what-is-this" class="anchor" href="#what-is-this"><span class="octicon octicon-link"></span></a>What is this?</h1>
+
+<p>Simple wrapper of MySQL.NET for PowerShell.
+Just for Command send/receive from PowerShell host or ISE. </p>
+
+<h1>
+<a name="cmdlets" class="anchor" href="#cmdlets"><span class="octicon octicon-link"></span></a>Cmdlets</h1>
+
+<p>Here's Cmdlets use in public</p>
+
+<div class="highlight highlight-text"><pre>CommandType     Name                                               ModuleName
+-----------     ----                                               ----------
+Function        Disconnect-PSMySQLModuleConnection                 PSMySQLModule
+Function        Edit-PSMySQLModuleConfig                           PSMySQLModule
+Function        Invoke-PSMySQLModuleNonQuery                       PSMySQLModule
+Function        Invoke-PSMySQLModuleReadQuery                      PSMySQLModule
+Function        New-PSMySQLModuleConnection                        PSMySQLModule
+Function        Show-PSMySQLModuleConfig                           PSMySQLModule```
+</pre></div>
+
+<h1>
+<a name="resolve-mysqldatadll-with-nuget" class="anchor" href="#resolve-mysqldatadll-with-nuget"><span class="octicon octicon-link"></span></a>Resolve MySql.Data.dll with NuGet</h1>
+
+<p>Project is developed by Visual Studio 2013 with "PowerShell Tools for Visual Studio". Thus you can use NuGet to load depending reference "MySql.Data.dll".</p>
+
+<p>Just enable NuGet to resolve not referenced file and update it.</p>
+
+<h1>
+<a name="sample" class="anchor" href="#sample"><span class="octicon octicon-link"></span></a>Sample</h1>
+
+<p>You can find sample source in (sample)[<a href="https://github.com/guitarrapc/PSMySQLModule/tree/master/PSMySQLModule/Sample">https://github.com/guitarrapc/PSMySQLModule/tree/master/PSMySQLModule/Sample</a>]</p>
+
+<h2>
+<a name="establish-connection" class="anchor" href="#establish-connection"><span class="octicon octicon-link"></span></a>Establish Connection</h2>
+
+<p>It's easy to carete connection. The only thing prerequisite is define credential information in <code>PSMySQLModule-config.ps1</code>. </p>
+
+<h3>
+<a name="prerequisite" class="anchor" href="#prerequisite"><span class="octicon octicon-link"></span></a>Prerequisite</h3>
+
+<p>You can define credentials inside configuration file <code>PSMySQLModule-config.ps1</code>. </p>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># contains MySQL Connection information</span>
+<span class="nv">$PSMySQLModule</span><span class="p">.</span><span class="n">Connection</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">psobject</span> <span class="n">-property</span> <span class="p">@{</span>
+    <span class="n">user</span>                    <span class="p">=</span> <span class="s2">"hoge"</span><span class="p">;</span>
+    <span class="n">password</span>                <span class="p">=</span> <span class="s2">"fuga"</span><span class="p">;</span>
+    <span class="n">port</span>                    <span class="p">=</span> <span class="n">3306</span><span class="p">;</span>
+    <span class="n">hostAddress</span>             <span class="p">=</span> <span class="s2">"localhost"</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>So that each Cmndlet will use it in default.</p>
+
+<h3>
+<a name="new-psmysqlmoduleconnection" class="anchor" href="#new-psmysqlmoduleconnection"><span class="octicon octicon-link"></span></a>New-PSMySQLModuleConnection</h3>
+
+<p>You can create connection in one line.</p>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># if you set configuration for "user, password, hostAddress, port" with PSMySQLModule-config.ps1, then you can omit it.</span>
+<span class="nv">$connection</span> <span class="p">=</span> <span class="nb">New-PSMySQLModuleConnection</span>
+</pre></div>
+
+<h3>
+<a name="override-defined-credential" class="anchor" href="#override-defined-credential"><span class="octicon octicon-link"></span></a>Override defined credential</h3>
+
+<p>Even if have defined credential inside <code>PSMySQLModule-config.ps1</code>, you can override them by passing value for parameter.  </p>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># you can override configuration value with simply add credential for each parameter.</span>
+<span class="nv">$connection</span> <span class="p">=</span> <span class="nb">New-PSMySQLModuleConnection</span> <span class="n">-HostAddress</span> <span class="s2">"mysqlSample.hogehoge.ap-northeast-1.rds.amazonaws.com"</span> <span class="n">-user</span> <span class="n">hoge</span> <span class="n">-Password</span> <span class="n">fuga</span> <span class="n">-Port</span> <span class="n">3306</span>
+</pre></div>
+
+<h2>
+<a name="send-query" class="anchor" href="#send-query"><span class="octicon octicon-link"></span></a>Send Query</h2>
+
+<p>There are 2 types of Cmndlet you can use.</p>
+
+<h3>
+<a name="invoke-psmysqlmodulereadquery" class="anchor" href="#invoke-psmysqlmodulereadquery"><span class="octicon octicon-link"></span></a>Invoke-PSMySQLModuleReadQuery</h3>
+
+<p>This is for "Value returned query", something like "SELECT" and "SHOW". </p>
+
+<p>Just pass query strings and connection to the cmdlet. Then Cmdlet will execute it.</p>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># show query sample</span>
+<span class="nb">Invoke-PSMySQLModuleReadQuery</span> <span class="s2">"show databases;"</span> <span class="n">-connection</span> <span class="nv">$connection</span>
+</pre></div>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># select query sample</span>
+<span class="nb">Invoke-PSMySQLModuleReadQuery</span> <span class="s2">"select * from hoge;"</span> <span class="n">-connection</span> <span class="nv">$connection</span>
+</pre></div>
+
+<h3>
+<a name="invoke-psmysqlmodulenonquery" class="anchor" href="#invoke-psmysqlmodulenonquery"><span class="octicon octicon-link"></span></a>Invoke-PSMySQLModuleNonQuery</h3>
+
+<p>This is for "Value not returned query", something like "CREATE", "DELETE" or else. </p>
+
+<p>Just pass query strings and connection to the cmdlet. Then Cmdlet will execute it.</p>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># create function sample</span>
+<span class="n">DROP</span> <span class="k">FUNCTION</span> <span class="k">IF</span> <span class="n">EXISTS</span> <span class="n">samepl_function</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="k">FUNCTION</span> <span class="n">sameple_function</span><span class="p">()</span>
+    <span class="n">RETURNS</span> <span class="n">datetime</span>
+    <span class="n">DETERMINISTIC</span>
+    <span class="n">NO</span> <span class="n">SQL</span>
+    <span class="n">SQL</span> <span class="n">SECURITY</span> <span class="n">Definer</span>
+    <span class="n">COMMENT</span> <span class="s1">'sample function return current time + 1hours'</span>
+<span class="k">BEGIN</span>   
+    <span class="k">return</span> <span class="n">CONVERT_TZ</span><span class="p">(</span><span class="n">CURRENT_TIMESTAMP</span><span class="p">(),</span><span class="s1">'+00:00'</span><span class="p">,</span><span class="s1">'+01:00'</span><span class="p">);</span>
+<span class="k">END</span>
+</pre></div>
+
+<h2>
+<a name="remove-connection" class="anchor" href="#remove-connection"><span class="octicon octicon-link"></span></a>Remove Connection</h2>
+
+<p>After you finished use connection, then dispose it.
+As PowerShell don't have (using) like C#, it requires explicit calls to Dispose() connection.</p>
+
+<div class="highlight highlight-PowerShell"><pre><span class="c"># Dispose Connection</span>
+<span class="nb">Disconnect-PSMySQLModuleConnection</span> <span class="n">-connection</span> <span class="nv">$connection</span>
+</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Psmysqlmodule maintained by <a href="https://github.com/guitarrapc">guitarrapc</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

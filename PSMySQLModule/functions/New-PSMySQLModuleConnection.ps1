@@ -41,7 +41,21 @@ function New-PSMySQLModuleConnection
             position = 4,
             ValueFromPipeLinebyPropertyName)]
         [string]
-        $SchemaName
+        $SchemaName,
+
+        [Parameter(
+            Mandatory = 0,
+            position = 5,
+            ValueFromPipeLinebyPropertyName)]
+        [string]
+        $allow_zero_datetime = "True",
+
+        [Parameter(
+            Mandatory = 0,
+            position = 6,
+            ValueFromPipeLinebyPropertyName)]
+        [string]
+        $convert_zero_datetime = "True"
     )
 
     begin
@@ -55,7 +69,7 @@ function New-PSMySQLModuleConnection
         }
         else
         {
-            $ConnectionString = "server={0};port={1};uid={2};pwd={3};database={4}" -f $HostAddress, $port, $User, $Password, $SchemaName
+            $ConnectionString = "server={0};port={1};uid={2};pwd={3};database={4};Convert Zero Datetime=$convert_zero_datetime;Allow Zero Datetime=$allow_zero_datetime" -f $HostAddress, $port, $User, $Password, $SchemaName
         }
     }
     process

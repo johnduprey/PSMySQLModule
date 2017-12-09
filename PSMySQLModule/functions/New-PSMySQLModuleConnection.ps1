@@ -69,7 +69,7 @@ function New-PSMySQLModuleConnection
         }
         else
         {
-            $ConnectionString = "server={0};port={1};uid={2};pwd={3};database={4};Convert Zero Datetime=$convert_zero_datetime;Allow Zero Datetime=$allow_zero_datetime" -f $HostAddress, $port, $User, $Password, $SchemaName
+            $ConnectionString = "server={0};port={1};uid={2};pwd={3};database={4};Convert Zero Datetime={5};Allow Zero Datetime={6}" -f $HostAddress, $port, $User, $Password, $SchemaName, $convert_zero_datetime, $allow_zero_datetime
         }
     }
     process

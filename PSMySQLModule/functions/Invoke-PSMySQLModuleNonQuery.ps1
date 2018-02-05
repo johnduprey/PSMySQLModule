@@ -36,6 +36,10 @@ function Invoke-PSMySQLModuleNonQuery
 
             Write-Verbose "Executing Query."
             $Result = $Command.ExecuteNonQuery()
+
+            if ($query -match "insert") {
+                $Result = $Command.LastInsertedId
+            }
         }
         catch 
         {
